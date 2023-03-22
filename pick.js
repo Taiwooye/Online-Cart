@@ -10,133 +10,122 @@ btnClose.addEventListener('click',()=>{
   cart.classList.remove('cart-active');
 });
 
-document.addEventListener('DOMContentLoaded',loadFood);
-
-function loadFood(){
-  loadContent();
-
-}
-
-function loadContent(){
-  //Remove Food Items  From Cart
-  let btnRemove=document.querySelectorAll('.cart-remove');
-  btnRemove.forEach((btn)=>{
-    btn.addEventListener('click',removeItem);
-  });
-
-  //Product Item Change Event
-  let qtyElements=document.querySelectorAll('.cart-quantity');
-  qtyElements.forEach((input)=>{
-    input.addEventListener('change',changeQty);
-  });
-
-  //Product Cart
-  
-  let cartBtns=document.querySelectorAll('.add-cart');
-  cartBtns.forEach((btn)=>{
-    btn.addEventListener('click',addCart);
-  });
-
-  updateTotal();
-}
+//DISPLAY increment on the cart
+let cartCount = document.getElementById('cart_count');
+let cartBtns= document.querySelectorAll('.add-cart');
 
 
-//Remove Item
-function removeItem(){
-  if(confirm){
-    let title=this.parentElement.querySelector('.cart-food-title').innerHTML;
-    itemList=itemList.filter(el=>el.title!=title);
-    this.parentElement.remove();
-    loadContent();
-  }
-}
+console.log(cartBtns);
+ //let car= document.querySelector('.food-box');
 
-//Change Quantity
-function btn(){
-  if(isNaN(this.value) || this.value<1){
-    this.value=1;
-  }
-  loadContent();
-}
+ let item = [];
+ let allproducts = [];
 
-let itemList=[];
+cartBtns.forEach((cartBtns,index)=>{
 
-//Add Cart
-function addCart(){
- let food=this.parentElement;
- let title=food.querySelector('.food-title').innerHTML;
- let price=food.querySelector('.food-price').innerHTML;
- let imgSrc=food.querySelector('.food-img').src;
- //console.log(title,price,imgSrc);
+  cartBtns.addEventListener('click',function(){
+    cartCount.innerHTML =parseInt(cartCount.innerHTML) +1;
+
+    let Title = cartBtns.parentElement.querySelector('.food-title').innerHTML;
+    let price = cartBtns.parentElement.querySelector('.food-price').innerHTML;
+    let img = cartBtns.parentElement.querySelector('.food-img').src;
+    // qty = cartBtns.parentElement
+
+
+    let found = item.find((e)=>e.title== Title);
+
+    let foodBox =  {
+        "title" : Title,
+        "price": price,
+        "img": img,
+        "qty": 1,
+    }
  
- let newProduct={title,price,imgSrc}
+     //Check Product already Exist in Cart
+ if(found){
+    function titleFindIndex(itm){
+            return itm.title == Title;
+    }
+    //  console.log(item);
+    foundIndex = item.findIndex(titleFindIndex) ;
 
- //Check Product already Exist in Cart
- if(itemList.find((el)=>el.title==newProduct.title)){
+    item[foundIndex].qty += 1;
+    // console.log(foundIndex);
     
-  return;
  }else{
-  itemList.push(newProduct);
+  let foodBox =  {
+    "title" : Title,
+    "price": price,
+    "img": img,
+    "qty": 1,
+}
+
+//  console.log("if not found push obj");
+
+  item.push(foodBox);
  }
 
-
-let newProductElement= createCartProduct(title,price,imgSrc);
-let element=document.createElement('div');
-element.innerHTML=newProductElement;
-let cartBasket=document.querySelector('.cart-content');
-cartBasket.append(element);
-loadContent();
-}
+ ViewCart();
 
 
-function createCartProduct(title,price,imgSrc){
+//  show inner html here
+ function ViewCart() {
 
-  return `
-  <div class="cart-box">
-  <img src="${imgSrc}" class="cart-img">
-  <div class="detail-box">
-    <div class="cart-food-title">${title}</div>
-    <div class="price-box">
-      <div class="cart-price">${price}</div>
-       <div class="cart-amt">${price}</div>
-   </div>
-    <input type="number" value="1" class="cart-quantity">
-  </div>
-  <ion-icon name="trash" class="cart-remove"></ion-icon>
-</div>
-  `;
-}
+     const cartcontent=document.querySelector('.cart-content');
 
-function updateTotal()
-{
-  const cartItems=document.querySelectorAll('.cart-box');
-  const totalValue=document.querySelector('.total-price');
+     cartcontent.innerHTML = "";
 
-  let total=0;
 
-  cartItems.forEach(product=>{
-    let priceElement=product.querySelector('.cart-price');
-    let price=parseFloat(priceElement.innerHTML.replace("Rs.",""));
-    let qty=product.querySelector('.cart-quantity').value;
-    total+=(price*qty);
-    product.querySelector('.cart-amt').innerText="$."+(price*qty);
+    for (let i = 0; i < item.length; i++) {
+       const Title = item[i].title;
+       const price = item[i].price;
+       const img = item[i].img;
+       const qty = item[i].qty;
+
+       let div =document.createElement('div');
+
+       div.innerHTML= `
+       <div class="cart-box">
+       <img src="${img}" class="cart-img">
+       <div class="detail-box">
+         <div class="cart-food-title">${Title}</div>
+         <div class="price-box">
+           <div class="cart-price">${price}</div>
+            <div class="cart-amt">${qty}</div>
+        </div>
+         <input type="number" value="1" class="qty">
+       </div>
+       <ion-icon name="trash" class="cart-remove"></ion-icon>
+     </div>`;
+
+cartcontent.appendChild(div);
+    
+   }console.log(item)
+    
+ }
+//  function Addtocart() {
+    
+//    div.innerHTML= `
+//     <div class="cart-box">
+//     <img src="${img}" class="cart-img">
+//     <div class="detail-box">
+//       <div class="cart-food-title">${Title}</div>
+//       <div class="price-box">
+//         <div class="cart-price">${price}</div>
+//          <div class="cart-amt">${qty}</div>
+//      </div>
+//       <input type="number" value="1" class="qty">
+//     </div>
+//     <ion-icon name="trash" class="cart-remove"></ion-icon>
+//   </div>
+//     `
+//  }
+
 
   });
 
-  totalValue.innerHTML='$.'+total;
+});
 
 
-  // Add Product Count in Cart Icon
-
-  const cartCount=document.querySelector('.cart-count');
-  let count=itemList.length;
-  cartCount.innerHTML=count;
-
-  if(count==0){
-    cartCount.style.display='none';
-  }else{
-    cartCount.style.display='block';
-  }
 
 
-}
