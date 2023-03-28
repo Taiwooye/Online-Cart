@@ -14,11 +14,12 @@
     top: 0;
     left: 0;
     width: 100%;
+    z-index: 99;
     background-color: skyblue;
   }
   
   .nav{
-    max-width: 1000px;
+    max-width: 1200px;
     margin: auto;
     width: 96%;
     height: 50px;
@@ -37,7 +38,7 @@
   
   .box{
     color:white;
-    width: 43px;
+    width: 30px;
     height: 30px;
     text-align: center;
     position: relative;
@@ -45,12 +46,12 @@
 
   #cart-count{
     position: absolute;
-     padding: 0px;
-    height: 0px; 
-    margin: 0;
+    /* padding: 0px;
+    height: 0px; */
     width: 10px;
-    z-index: 0;
-    left: 50;
+    /* top: 40px;
+    z-index: 49; */
+    left: 100;
   }
   
   #cart-icon{
