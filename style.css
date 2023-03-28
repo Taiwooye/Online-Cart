@@ -14,14 +14,13 @@
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 99;
     background-color: skyblue;
   }
   
   .nav{
-    max-width: 1200px;
+    max-width: 1000px;
     margin: auto;
-    width: 100%;
+    width: 96%;
     height: 50px;
     display: flex;
     justify-content: space-between;
@@ -38,7 +37,7 @@
   
   .box{
     color:white;
-    width: 30px;
+    width: 43px;
     height: 30px;
     text-align: center;
     position: relative;
@@ -46,12 +45,12 @@
 
   #cart-count{
     position: absolute;
-    /* padding: 0px;
-    height: 0px; */
+     padding: 0px;
+    height: 0px; 
+    margin: 0;
     width: 10px;
-    /* top: 40px;
-    z-index: 49; */
-    left: 100;
+    z-index: 0;
+    left: 50;
   }
   
   #cart-icon{
