@@ -253,5 +253,9 @@
     font-size: 2rem;
     cursor: pointer;
   }
+  .price-box button{
+    padding: 1px 5px;
+    border-radius: 20%;
+  }
 
  
